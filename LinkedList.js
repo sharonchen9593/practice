@@ -13,11 +13,11 @@ class LinkedList {
             return this;
         }
 
-        if (this.head === null && afterValue) {
+        let afterNode = this.exists(afterValue);
+
+        if ((this.head === null && afterValue) || (!afterNode && afterValue)) {
             return this;
         }
-
-        let afterNode = this.exists(afterValue);
 
         const node = new Node(value, afterNode ? afterNode.next: null);
 
@@ -52,7 +52,7 @@ class LinkedList {
         let beforeNode = null;
         let prevNode = null;
         let currentNode = this.head;
-        while (currentNode.next) {
+        while (currentNode) {
             if (currentNode.value === beforeValue) {
                 beforeNode = currentNode;
                 break;
@@ -110,7 +110,7 @@ class LinkedList {
         }
 
         let currentNode = this.head;
-        while (currentNode.next) {
+        while (currentNode) {
             if (currentNode.value === value) {
                 return currentNode;
             }
@@ -142,7 +142,7 @@ x.remove('A')
 print(x)
 x.addAfter('A')
 print(x)
-x.addAfter('C')
+x.addAfter('C', 'M')
 print(x)
 x.addAfter('B', 'A')
 print(x)
