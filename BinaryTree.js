@@ -110,3 +110,19 @@ const breadthFirstTraversal = (node) => {
 
 breadthFirstTraversal(node8)
 
+// root, all left nodes, right nodes
+const preorderTraversal = (node, list = []) => {
+    list.push(node.value);
+
+    if (node.left) {
+        list = preorderTraversal(node.left, list)
+    }
+
+    if (node.right) {
+        list = preorderTraversal(node.right, list)
+    }
+
+    return list
+}
+
+preorderTraversal(node8, []);
