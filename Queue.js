@@ -28,11 +28,13 @@ class Q {
         if (this.first === this.last) {
             this.first = null;
             this.last = null;
-            return this;
+            return this.first.value;
         }
 
+        const dQed = this.first.value;
+
         this.first = this.first.next;
-        return this;
+        return dQed;
     }
 
     front() {
