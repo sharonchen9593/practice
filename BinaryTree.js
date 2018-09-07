@@ -108,21 +108,87 @@ const breadthFirstTraversal = (node) => {
     return list;
 }
 
-breadthFirstTraversal(node8)
+// breadthFirstTraversal(node8)
 
-// root, all left nodes, right nodes
 const preorderTraversal = (node, list = []) => {
     list.push(node.value);
 
     if (node.left) {
-        list = preorderTraversal(node.left, list)
+        preorderTraversal(node.left, list)
     }
 
     if (node.right) {
-        list = preorderTraversal(node.right, list)
+        preorderTraversal(node.right, list)
     }
 
     return list
 }
 
-preorderTraversal(node8, []);
+// preorderTraversal(node8, []);
+
+const inorderTraversal = (node, list) => {
+    if (node.left) {
+        inorderTraversal(node.left, list)
+    }
+
+    list.push(node.value);
+
+    if (node.right) {
+        inorderTraversal(node.right, list)
+    }
+
+    return list
+}
+
+// inorderTraversal(node8, fred)
+
+const postorderTraversal = (node, list = []) => {
+    if (node.left) {
+        postorderTraversal(node.left, list)
+    }
+
+    if (node.right) {
+        postorderTraversal(node.right, list)
+    }
+
+    list.push(node.value);
+
+    return list
+}
+
+// postorderTraversal(node8, [])
+
+const isBalanced = (node) => {
+    let balanced = true;
+    if (node.left && node.right) {
+        balanced = isBalanced(node.left);
+        balanced = isBalanced(node.right);
+    }
+
+    if (node.left && !node.right && (node.left.right || node.left.left)) {
+        balanced = false;
+    }
+
+    if (!node.left && node.right && (node.right.right || node.right.left)) {
+        balanced = false;
+    }
+
+    return balanced;
+}
+
+// isBalanced(node8)
+
+const isBalancedCounter = (node) => {
+    if (!node) {
+        return 0;
+    }
+
+    const leftHeight = isBalancedCounter(node.left);
+    const rightHeight = isBalancedCounter(node.right);
+
+    if (Math.abs(leftHeight - rightHeight) > 1) {
+        console.log('Unbalanced');
+    }
+
+    return Math.max(leftHeight, rightHeight) + 1;
+}
