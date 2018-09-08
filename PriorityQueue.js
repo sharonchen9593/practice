@@ -1,7 +1,13 @@
 // insert, getHighest, deleteHighest
 
-class MinHeap {
-    constructor() {
+class Heap {
+    constructor(comparator) {
+        const defaultComparator =  (a, b) => {
+            return a - b;
+        };
+
+        this.comparator = comparator || defaultComparator;
+
         this.heap = [null];
     }
 
@@ -17,15 +23,13 @@ class MinHeap {
         return index * 2 + 1;
     }
 
-    insert(value, priority) {
-        const node = new Node(value, priority);
-        this.heap.push(node);
+    push(value) {
+        this.heap.push(value);
 
-        // bubble up
         let currentIndex = this.heap.length - 1;
         let parentIndex = this.getParentIndex(currentIndex);
-        // console.log(currentIndex, parentIndex, this.heap[parentIndex])
-        while(this.heap[parentIndex] && this.heap[parentIndex].priority > priority) {
+
+        while(this.heap[parentIndex] && this.comparator(this.heap[parentIndex], value) > 0) {
             const parentItem = this.heap[parentIndex];
             const currentItem = this.heap[currentIndex];
             this.heap[parentIndex] = currentItem;
@@ -37,21 +41,28 @@ class MinHeap {
         return this.heap;
     }
 
-    getLowest() {
+    peek() {
         return this.heap[1];
     }
 
-    deleteLowest() {
+    pop() {
         const lastNode = this.heap[this.heap.length - 1];
-        this.heap[this.heap.length - 1] = null;
-        this.heap[1] = lastNode;
+        const poppedValue = this.heap[1];
+        this.heap.pop();
+
+        if (this.heap.length > 1) {
+            this.heap[1] = lastNode;
+        }
+
 
         let currentIndex = 1;
         let leftChildIndex = this.getLeftChildIndex(1);
         let rightChildIndex = this.getRightChildIndex(1);
-
-        while ((this.heap[leftChildIndex] && this.heap[currentIndex].priority > this.heap[leftChildIndex].priority) || (this.heap[rightChildIndex] && this.heap[currentIndex].priority > this.heap[rightChildIndex].priority)) {
-            if (this.heap[rightChildIndex].priority > this.heap[leftChildIndex].priority) {
+        let compareLeftChild = (this.heap[leftChildIndex] && this.heap[currentIndex] && this.comparator(this.heap[currentIndex], this.heap[leftChildIndex])  > 0 )
+        let compareRightChild = (this.heap[rightChildIndex] && this.heap[currentIndex] && this.comparator(this.heap[currentIndex], this.heap[rightChildIndex]) > 0 );
+        while (compareLeftChild || compareRightChild) {
+            const comparator = this.heap[rightChildIndex] ? this.comparator(this.heap[rightChildIndex], this.heap[leftChildIndex]) : 1;
+            if (comparator > 0) {
                 const currentNode = this.heap[currentIndex];
                 const childNode = this.heap[leftChildIndex];
                 this.heap[currentIndex] = childNode;
@@ -59,7 +70,7 @@ class MinHeap {
                 currentIndex = leftChildIndex;
                 leftChildIndex = this.getLeftChildIndex(currentIndex);
                 rightChildIndex = this.getRightChildIndex(currentIndex);
-            } else if (this.heap[leftChildIndex].priority > this.heap[rightChildIndex].priority) {
+            } else if (comparator < 0) {
                 const currentNode = this.heap[currentIndex];
                 const childNode = this.heap[rightChildIndex];
                 this.heap[currentIndex] = childNode;
@@ -68,9 +79,11 @@ class MinHeap {
                 leftChildIndex = this.getLeftChildIndex(currentIndex);
                 rightChildIndex = this.getRightChildIndex(currentIndex);
             }
+            compareRightChild = (this.heap[rightChildIndex] && this.heap[currentIndex] && this.comparator(this.heap[currentIndex], this.heap[rightChildIndex]) > 0 );
+            compareLeftChild = (this.heap[leftChildIndex] && this.heap[currentIndex] && this.comparator(this.heap[currentIndex], this.heap[leftChildIndex])  > 0 )
         }
-
-        return this.heap;
+        console.log(poppedValue)
+        return poppedValue;
     }
 
     getParentIndex(index) {
@@ -86,18 +99,47 @@ class MinHeap {
     }
 }
 
-class Node {
-    constructor(value, priority) {
-        this.value = value;
-        this.priority = priority;
-    }
-}
+const currentLocation = {
+    x: 5,
+    y: 5,
+};
 
-const x = new MinHeap();
-x.insert(5, 5)
-x.insert(2, 2)
-x.insert(1,1)
-x.insert(3, 3)
-x.insert(7, 7)
-x.deleteLowest()
-x.getLowest()
+const x = new Heap((a, b) => {
+    const aDistance = Math.sqrt(Math.pow(a.x - currentLocation.x, 2) + Math.pow(a.y - currentLocation.y, 2));
+const bDistance = Math.sqrt(Math.pow(b.x - currentLocation.x, 2) + Math.pow(b.y - currentLocation.y, 2));
+
+return aDistance - bDistance;
+});
+x.push({x: 0, y: 0})
+x.push({x: 9, y: 9})
+x.push({x: 5, y: 5})
+x.push({x: 6, y: 6})
+x.push({x: 4, y: 4})
+x.pop()
+x.pop()
+x.pop()
+x.pop()
+x.pop()
+x.pop()
+
+// const x = new Heap((a, b) => {
+//   return a - b;
+// });
+// x.push(5)
+// x.push(2)
+// x.push(1)
+// x.push(3)
+// x.push(7)
+// x.pop()
+// x.pop()
+// x.pop()
+// x.pop()
+// x.pop()
+// x.pop()
+// x.getLowest()
+
+// insert(value)
+// pop()
+// peek()
+// set((a, b) => number) OR new MinHeap
+
