@@ -22,4 +22,46 @@ const insertionSort = (arr) => {
     return arr;
 }
 
-insertionSort(arr)
+// insertionSort(arr)
+
+const mergeSort = (arr) => {
+    const left = 0;
+    const right = arr.length - 1;
+    const middle = Math.ceil(right/2);
+
+    if (left < right) {
+        const leftArr = arr.slice(left, middle)
+        const rightArr = arr.slice(middle, right + 1)
+
+        return merge(mergeSort(leftArr), mergeSort(rightArr))
+    } else {
+        return arr;
+    }
+}
+
+const merge = (left, right) => {
+    const sortedArr = [];
+    let leftIndex = 0;
+    let rightIndex = 0;
+
+    while (leftIndex < left.length || rightIndex < right.length) {
+        const leftItem = left[leftIndex];
+        const rightItem = right[rightIndex];
+        if (leftItem < rightItem || (!rightItem || rightItem === 0)) {
+            sortedArr.push(leftItem);
+            leftIndex += 1;
+        } else if (rightItem < leftItem || (!leftItem || leftItem === 0)) {
+            sortedArr.push(rightItem);
+            rightIndex += 1;
+        } else {
+            // else if same
+            sortedArr.push(leftItem);
+            sortedArr.push(rightItem);
+            leftIndex += 1;
+            rightIndex += 1;
+        }
+    }
+    return sortedArr;
+}
+
+mergeSort(arr)
