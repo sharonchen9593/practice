@@ -64,4 +64,35 @@ const merge = (left, right) => {
     return sortedArr;
 }
 
-mergeSort(arr)
+// mergeSort(arr)
+
+
+const quickSort = (arr, start = 0, end = arr.length) => {
+    const pivot = arr[start];
+    let i = start;
+    let j = start + 1;
+
+    if (start < end) {
+        while (j < end) {
+            if (arr[j] < pivot) {
+                i++;
+                swap(arr, i, j)
+            }
+            j++;
+        }
+        swap(arr, start, i)
+        quickSort(arr, start, i - 1);
+        quickSort(arr, i + 1, end)
+    }
+
+    return arr;
+}
+
+const swap = (arr, i, j) => {
+    temp = arr[i];
+    arr[i] = arr[j];
+    arr[j] = temp;
+    return arr;
+}
+
+quickSort(arr)
