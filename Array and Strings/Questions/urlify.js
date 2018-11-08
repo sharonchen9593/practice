@@ -10,3 +10,15 @@
  * Time Complexity:
  * Space Complexity:
  **/
+
+const urlify = (str) => {
+    let arr = str.split(' ');
+    arr = arr.filter((word) => {
+        if (word !== '') {
+            return word;
+        }
+    })
+    return arr.join('%20')
+}
+
+urlify('Mr John Smith     ')
