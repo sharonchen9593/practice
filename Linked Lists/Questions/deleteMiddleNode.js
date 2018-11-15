@@ -11,3 +11,14 @@
  * Time Complexity:
  * Space Complexity:
  **/
+
+const deleteMiddleNode = (node) => {
+    if (!node || node.next === null) {
+        return false;
+    }
+
+    const next = node.next;
+    node.data = next.data;
+    node.next = next.next;
+    return true;
+}

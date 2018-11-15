@@ -14,3 +14,37 @@
  * Time Complexity:
  * Space Complexity:
  **/
+
+class Node {
+    constructor(value, next) {
+        this.value = value;
+        this.next = next;
+    }
+}
+
+class LinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    add(value) {
+        const node = new Node(value);
+        if (!this.head) {
+            this.head = node;
+        }
+    }
+}
+
+const sumList = (list1, list2, carry, result) => {
+    const value1 = list1.value;
+    const value2 = list2.value;
+    let remainder = 0;
+    if (value1 || value2) {
+        const sum = value1 + value2 + carry;
+        remainder = sum % 10;
+        const digit = Math.floor(sum/10);
+    }
+
+    const node =
+}
