@@ -10,7 +10,3 @@
  * Time Complexity:
  * Space Complexity:
  **/
-
-const loop = (list) => {
-
-}
